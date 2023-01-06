@@ -1,0 +1,19 @@
+{
+  "name": "Annotate-Design",
+  "version": "1.0.0",
+  "description": "Your Figma Plugin",
+  "main": "code.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "watch": "npm run build -- --watch"
+  },
+  "author": "",
+  "license": "",
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.57.1",
+    "typescript": "*"
+  },
+  "dependencies": {
+    "figma-plugin-ds": "^1.0.1"
+  }
+}
