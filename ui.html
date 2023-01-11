@@ -2,6 +2,7 @@
   * {
     font-family: "Inter", sans-serif;
     margin: 0;
+    box-sizing: border-box;
   }
 
   body {
@@ -10,6 +11,7 @@
     padding: 16px;
     gap: 16px;
     color: var(--figma-color-text);
+    height: 100%;
   }
 
   .empty-state {
@@ -18,7 +20,7 @@
     gap: 16px;
     align-items: center;
     justify-content: center;
-    height: 536px;
+    flex-grow: 1;
   }
 
   .empty-state p {
@@ -53,7 +55,7 @@
     border-radius: 999px;
     border: 2px solid var(--figma-color-border);
     background: var(--figma-color-bg);
-    width: 80px;
+    width: 112px;
     transition: gap 150ms ease-in-out;
   }
 
@@ -77,11 +79,12 @@
   .middle-row {
     display: flex;
     gap: 16px;
+    width: 100%;
   }
 
   .selection-placeholder {
     background-color: var(--figma-color-bg-tertiary);
-    width: 120px;
+    width: 100%;
     border-radius: 4px;
   }
 
@@ -188,6 +191,90 @@
 
   .about {
     display: none;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    background: var(--figma-color-bg);
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .about-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+    padding: 16px;
+    flex-grow: 1;
+  }
+
+  .about-content h1 {
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 600;
+    color: var(--figma-color-text);
+  }
+
+  .about-content p {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+    color: var(--figma-color-text-secondary);
+  }
+
+  .about-me {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+    border: 2px solid var(--figma-color-border);
+    border-radius: 8px;
+  }
+
+  .about-me p {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    color: var(--figma-color-text-secondary);
+  }
+
+  .about-me-item {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .about-me-name {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 600;
+    color: var(--figma-color-text);
+  }
+
+  .about-me-site {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    color: var(--figma-color-text-secondary);
+  }
+
+  .plugin-info {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    padding: 16px;
+    border: 2px solid var(--figma-color-border);
+    border-radius: 8px;
   }
 </style>
 
@@ -400,7 +487,7 @@
 
   <!-- About page section starts-->
   <section class="about">
-    <button>Go back</button>
+    <button id="go-back">Go back</button>
     <div class="about-content">
       <h1>Hello 👋</h1>
       <p>
@@ -448,14 +535,19 @@
   const emptyState = document.querySelector(".empty-state");
   const selectedState = document.querySelector(".selected-state");
 
-  // document.querySelector("#about-btn").onclick = () => {
-  //   document.querySelector(".about").style.display = "block";
-  //   document.querySelector(".empty-state").style.display = "none";
-  //   document.querySelector(".selected-state").style.display = "none";
-  //   document.querySelector("footer").style.display = "none";
-  // };
+  // Show about page
+  let aboutPageDisplayed = false;
 
-  // Show empty state if no element selected
+  document.querySelector("#about-btn").onclick = () => {
+    aboutPageDisplayed = true;
+    document.querySelector(".about").style.display = "flex";
+  };
+
+  // Close about page
+  document.querySelector("#go-back").onclick = () => {
+    aboutPageDisplayed = false;
+    document.querySelector(".about").style.display = "none";
+  };
 
   onmessage = (event) => {
     if (event.data.pluginMessage.type === "no-element-selected") {
@@ -465,6 +557,7 @@
       emptyState.style.display = "none";
       selectedState.style.display = "block";
     }
+
     console.log(event.data.pluginMessage);
   };
 
