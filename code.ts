@@ -14,8 +14,9 @@ figma.showUI(__html__, {
 });
 
 // Check if something is selected on the artboard
-figma.on("selectionchange", () => {
-  // This is the event listener
+
+// This function checks if something is selected on the artboard
+function checkSelection() {
   if (figma.currentPage.selection.length === 0) {
     figma.ui.postMessage({
       type: "no-element-selected",
@@ -25,6 +26,14 @@ figma.on("selectionchange", () => {
       type: "element-selected",
     });
   }
+}
+
+// Run the checkSelection function
+checkSelection();
+
+// Listen for selection changes
+figma.on("selectionchange", () => {
+  checkSelection();
 });
 
 // Load the fonts async function
@@ -48,12 +57,12 @@ function hexToRGB(hex: string) {
   return { r, g, b };
 }
 
-// Some variables for colors
+// Creating variables for colors
 const backgroundColor = hexToRGB("#131314");
 const textColor = hexToRGB("#FFFFFF");
 const borderColor = hexToRGB("#44474A");
 
-// Create the annotation function
+// Create annotation function
 function createAnnotation(
   annotationPosition: string,
   annotationTitle: string,
@@ -64,7 +73,7 @@ function createAnnotation(
   let textFrameWidth: number;
   let textFrameHeight: number;
 
-  // Dot
+  // Annotation dot
   function dot() {
     const annotationDot = figma.createEllipse();
     annotationDot.name = "Dot";
@@ -78,7 +87,7 @@ function createAnnotation(
     annotationFrame.appendChild(annotationDot);
   }
 
-  // Line
+  // Annotation line
   function line() {
     const annotationLine = figma.createRectangle();
     annotationLine.name = "Line";
@@ -144,7 +153,7 @@ function createAnnotation(
     annotationTextFrame.paddingBottom = 8;
     annotationFrame.appendChild(annotationTextFrame);
 
-    // Content
+    // Text frame content
     const createText = (nameText: string, contentText: string, font: any) => {
       const text = figma.createText();
       text.name = nameText;
@@ -200,10 +209,12 @@ function createAnnotation(
   annotationFrame.counterAxisAlignItems = "CENTER";
   annotationFrame.itemSpacing = -2;
 
+  // Check if there is an existing parent frame that would hold the annotations
   const existingFrame = figma.currentPage.findChild(
     (layer) => layer.name === "🗒️ Annotations" && layer.type === "FRAME"
   );
 
+  // If there is no existing parent frame, create one and add the annotation frame to it
   if (!existingFrame) {
     const parentFrame = figma.createFrame();
     parentFrame.name = "🗒️ Annotations";
@@ -216,99 +227,98 @@ function createAnnotation(
     existingFrame.appendChild(annotationFrame);
   }
 
-  // Frame top
-  function frameTop() {
-    textFrame();
-    line();
-    dot();
-    annotationFrame.layoutMode = "VERTICAL";
-    annotationFrame.layoutAlign = "STRETCH";
-    annotationFrame.itemReverseZIndex = true;
-    if (currentBounds !== null) {
-      annotationFrame.resize(textFrameWidth, textFrameHeight + 80);
-      annotationFrame.x = Math.round(
-        currentBounds.x + currentSelection.width / 2 - textFrameWidth / 2
-      );
-      annotationFrame.y = Math.round(
-        currentBounds.y - annotationFrame.height + 4
-      );
+  // Function to set the annotation frame properties
+  function setAnnotationFrameProperties(annotationPosition: string) {
+    if (annotationPosition === "right" || annotationPosition === "left") {
+      annotationFrame.layoutMode = "HORIZONTAL";
+      annotationFrame.layoutAlign = "STRETCH";
+    } else if (
+      annotationPosition === "top" ||
+      annotationPosition === "bottom"
+    ) {
+      annotationFrame.layoutMode = "VERTICAL";
+      annotationFrame.layoutAlign = "STRETCH";
     }
   }
 
-  // Frame bottom
-  function frameBottom() {
-    dot();
-    line();
-    textFrame();
-    annotationFrame.layoutMode = "VERTICAL";
-    annotationFrame.layoutAlign = "STRETCH";
+  // Function to set the annotation frame properties based on the position
+  function positionAnnotationFrame(annotationPosition: string) {
     if (currentBounds !== null) {
-      annotationFrame.resize(textFrameWidth, textFrameHeight + 80);
-      annotationFrame.x = Math.round(
-        currentBounds.x + currentSelection.width / 2 - textFrameWidth / 2
-      );
-      annotationFrame.y = Math.round(
-        currentBounds.y + currentSelection.height - 4
-      );
+      switch (annotationPosition) {
+        case "top":
+          annotationFrame.resize(textFrameWidth, textFrameHeight + 80);
+          annotationFrame.x = Math.round(
+            currentBounds.x + currentSelection.width / 2 - textFrameWidth / 2
+          );
+          annotationFrame.y = Math.round(
+            currentBounds.y - annotationFrame.height + 4
+          );
+          break;
+        case "bottom":
+          annotationFrame.resize(textFrameWidth, textFrameHeight + 80);
+          annotationFrame.x = Math.round(
+            currentBounds.x + currentSelection.width / 2 - textFrameWidth / 2
+          );
+          annotationFrame.y = Math.round(
+            currentBounds.y + currentSelection.height - 4
+          );
+          break;
+        case "left":
+          annotationFrame.resize(textFrameWidth + 80, textFrameHeight);
+          annotationFrame.x = Math.round(
+            currentBounds.x - annotationFrame.width + 4
+          );
+          annotationFrame.y = Math.round(
+            currentBounds.y + currentSelection.height / 2 - textFrameHeight / 2
+          );
+          break;
+        case "right":
+          annotationFrame.resize(textFrameWidth + 80, textFrameHeight);
+          annotationFrame.x = Math.round(
+            currentBounds.x + currentSelection.width - 4
+          );
+          annotationFrame.y = Math.round(
+            currentBounds.y + currentSelection.height / 2 - textFrameHeight / 2
+          );
+          break;
+      }
     }
   }
 
-  // Frame left
-  function frameLeft() {
-    textFrame();
-    line();
-    dot();
-    annotationFrame.layoutMode = "HORIZONTAL";
-    annotationFrame.layoutAlign = "STRETCH";
-    if (currentBounds !== null) {
-      annotationFrame.resize(textFrameWidth + 80, textFrameHeight);
-      annotationFrame.x = Math.round(
-        currentBounds.x - annotationFrame.width + 4
-      );
-      annotationFrame.y = Math.round(
-        currentBounds.y + currentSelection.height / 2 - textFrameHeight / 2
-      );
-    }
-    annotationFrame.itemReverseZIndex = true;
-  }
-
-  // Frame right
-  function frameRight() {
-    dot();
-    line();
-    textFrame();
-    annotationFrame.layoutMode = "HORIZONTAL";
-    annotationFrame.layoutAlign = "STRETCH";
-    if (currentBounds !== null) {
-      annotationFrame.resize(textFrameWidth + 80, textFrameHeight);
-      annotationFrame.x = Math.round(
-        currentBounds.x + currentSelection.width - 4
-      );
-      annotationFrame.y = Math.round(
-        currentBounds.y + currentSelection.height / 2 - textFrameHeight / 2
-      );
-    }
-  }
-
+  // Calling the function to position the annotation based on the selected position
   if (annotationPosition === "top") {
-    frameTop();
+    textFrame();
+    line();
+    dot();
+    setAnnotationFrameProperties(annotationPosition);
+    positionAnnotationFrame(annotationPosition);
+    annotationFrame.itemReverseZIndex = true;
   } else if (annotationPosition === "bottom") {
-    frameBottom();
+    dot();
+    line();
+    textFrame();
+    setAnnotationFrameProperties(annotationPosition);
+    positionAnnotationFrame(annotationPosition);
   } else if (annotationPosition === "left") {
-    frameLeft();
+    textFrame();
+    line();
+    dot();
+    setAnnotationFrameProperties(annotationPosition);
+    positionAnnotationFrame(annotationPosition);
+    annotationFrame.itemReverseZIndex = true;
   } else if (annotationPosition === "right") {
-    frameRight();
+    dot();
+    line();
+    textFrame();
+    setAnnotationFrameProperties(annotationPosition);
+    positionAnnotationFrame(annotationPosition);
   } else {
     figma.notify("Please select a position for the annotation.");
   }
 }
 
-// Calls to "parent.postMessage" from within the HTML page will trigger this
-// callback. The callback will be passed the "pluginMessage" property of the
-// posted message.
+// Getting the information from the UI and calling the function to create the annotation
 figma.ui.onmessage = (msg) => {
-  // One way of distinguishing between different types of messages sent from
-  // your HTML page is to use an object with a "type" property like this.
   if (msg.type === "add-annotation") {
     loadingFontFunction()
       .then(() => {
@@ -319,8 +329,4 @@ figma.ui.onmessage = (msg) => {
         figma.notify("Something went wrong. 😔");
       });
   }
-
-  // Make sure to close the plugin when you're done. Otherwise the plugin will
-  // keep running, which shows the cancel button at the bottom of the screen.
-  // figma.closePlugin();
 };
