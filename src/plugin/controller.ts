@@ -1,6 +1,6 @@
 figma.showUI(__html__, {
   width: 360,
-  height: 760,
+  height: 760, // 760
   title: "Annotate Design",
   themeColors: true,
 });

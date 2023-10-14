@@ -8,6 +8,7 @@
   flex-direction: column;
   gap: 16px;
   flex-grow: 1;
+  padding-bottom: 120px;
 }
 
 .selection-input {

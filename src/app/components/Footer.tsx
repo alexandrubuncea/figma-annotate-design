@@ -1,6 +1,6 @@
 import React from "react";
-import coffeeIcon from "../assets/icons/coffee.svg";
 import "../styles/Footer.css";
+import "../styles/Icons.css";
 
 const Footer = ({ onAboutClick }) => {
   return (
@@ -11,7 +11,7 @@ const Footer = ({ onAboutClick }) => {
         rel="noopener noreferrer"
         className="footer-button"
       >
-        <img src={coffeeIcon} />
+        <span className="material-symbols-rounded">coffee</span>
         Buy me a coffee!
       </a>
 

@@ -11,7 +11,7 @@ body {
   color: var(--figma-color-text);
   height: 100%;
   width: 360px;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 textarea {

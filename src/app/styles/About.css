@@ -37,14 +37,25 @@
 .get-me-a-coffee {
   width: 100%;
   background: #ffdd00;
-  color: var(--figma-color-text);
+  color: rgba(0, 0, 0, 0.9);
   text-decoration: none;
 }
 
 .get-me-a-coffee:hover {
   background: #ffe747;
   text-decoration: none;
-  color: var(--figma-color-text);
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.about-header {
+  position: sticky;
+  top: 0px;
+  width: 100%;
+  background: var(--figma-color-bg);
+  padding-top: 16px;
+  margin-top: -16px;
+  padding-bottom: 16px;
+  margin-bottom: -16px;
 }
 
 .about {
@@ -52,8 +63,9 @@
 }
 
 .about-content {
-  margin: 32px 0;
+  margin: 16px 0;
   padding: 16px;
+  padding-bottom: 64px;
 }
 
 .about-content h1 {
@@ -128,6 +140,7 @@ a:hover {
   flex-direction: row;
   gap: 16px;
   padding: 8px;
+  background: var(--figma-color-bg);
   border: 2px solid var(--figma-color-border);
   border-radius: 8px;
   align-items: center;
