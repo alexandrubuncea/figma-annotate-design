@@ -1,0 +1,53 @@
+/* ToggleSwitch.css */
+
+.toggle-switch-box {
+  display: flex;
+  align-items: center;
+  width: 40px; /* Set the width */
+  height: 32px; /* Set the height */
+  padding: 10px 8px; /* Set the padding */
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 24px; /* Set the width */
+  height: 12px; /* Set the height */
+}
+
+.toggle-switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--figma-color-bg);
+  box-shadow: 0 0 0 1px var(--figma-color-bg-inverse);
+  transition: 0.15s;
+  border-radius: 9999px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 12px;
+  width: 12px;
+
+  background-color: var(--figma-color-bg);
+  box-shadow: 0 0 0 1px var(--figma-color-bg-inverse);
+  transition: 0.15s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--figma-color-bg-inverse);
+}
+
+input:checked + .slider:before {
+  transform: translateX(12px);
+}
