@@ -1,0 +1,157 @@
+.selected-state {
+  padding: 16px;
+  height: 100vh;
+}
+
+.annotation-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex-grow: 1;
+}
+
+.selection-input {
+  display: none;
+  position: absolute;
+}
+
+.selection-label {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 2px solid var(--figma-color-border);
+  width: 112px;
+}
+
+.selection-label:hover {
+  background: var(--figma-color-bg-hover);
+}
+
+.selection-input:checked + .selection-label {
+  background: var(--figma-color-bg-brand);
+  border-color: var(--figma-color-bg-brand);
+  color: var(--figma-color-text-onbrand);
+}
+
+.top-row,
+.bottom-row {
+  display: flex;
+  justify-content: center;
+}
+
+.middle-row {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+}
+
+.selection-placeholder {
+  background-color: var(--figma-color-bg-tertiary);
+  width: 100%;
+  border-radius: 4px;
+}
+
+.label,
+label {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.optional {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  color: var(--figma-color-text-secondary);
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+input,
+textarea {
+  background-color: var(--figma-color-bg);
+  color: var(--figma-color-text);
+  border: 2px solid var(--figma-color-border);
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  transition: border-color 150ms ease-in-out;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border: 2px solid var(--figma-color-border-selected);
+}
+
+.btn {
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  border: none;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary {
+  background: var(--figma-color-bg-brand);
+  color: var(--figma-color-text-onbrand);
+  color: #fff;
+  position: fixed;
+  bottom: 64px;
+  width: 328px;
+}
+
+.btn-primary:hover {
+  background: var(--figma-color-bg-brand-hover);
+  cursor: pointer;
+}
+
+.btn-ghost {
+  background: var(--figma-color-bg);
+  color: var(--figma-color-text);
+  color: #fff;
+  width: fit-content;
+}
+
+.btn-ghost:hover {
+  background: var(--figma-color-bg-hover);
+  cursor: pointer;
+}
+
+.error-border {
+  border: 2px solid var(--figma-color-border-danger-strong);
+}
+
+.error-helper-text {
+  color: var(--figma-color-text-danger);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.position-header {
+  display: flex;
+  flex-direction: column;
+}

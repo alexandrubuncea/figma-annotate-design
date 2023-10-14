@@ -2,9 +2,14 @@
   "name": "Annotate Design",
   "id": "1190992260300542362",
   "api": "1.0.0",
-  "main": "code.js",
-  "editorType": [
-    "figma"
-  ],
-  "ui": "ui.html"
+  "main": "dist/code.js",
+  "ui": "dist/ui.html",
+  "editorType": ["figma"],
+  "permissions": ["currentuser"],
+  "relaunchButtons": [
+    {
+      "command": "open",
+      "name": "Open Annotate Design"
+    }
+  ]
 }

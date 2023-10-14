@@ -1,0 +1,19 @@
+* {
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  color: var(--figma-color-text);
+  height: 100%;
+  width: 360px;
+  overflow: hidden;
+}
+
+textarea {
+  resize: none;
+}

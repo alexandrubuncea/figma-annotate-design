@@ -1,0 +1,45 @@
+.color-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.color-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 8px;
+  background: var(--figma-color-bg-secondary);
+  border-radius: 9999px;
+}
+
+.color-option {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  border-radius: 9999px;
+}
+
+.color-swatch {
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+input[type="radio"]:hover + .color-swatch {
+  opacity: 0.6;
+}
+
+.color-option input[type="radio"]:checked + .color-swatch {
+  outline: 2px solid var(--figma-color-border-selected);
+  outline-offset: 2px;
+}
+
+/* Remove hover effect from checked radio button */
+input[type="radio"]:checked + .color-swatch:hover {
+  opacity: 1;
+}

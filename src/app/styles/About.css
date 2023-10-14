@@ -1,0 +1,164 @@
+.btn {
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+  border: none;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary {
+  background: var(--figma-color-bg-brand);
+  color: var(--figma-color-text-onbrand);
+}
+
+.btn-primary:hover {
+  background: var(--figma-color-bg-brand-hover);
+  cursor: pointer;
+}
+
+.btn-ghost {
+  background: var(--figma-color-bg);
+  color: var(--figma-color-text);
+  width: fit-content;
+}
+
+.btn-ghost:hover {
+  background: var(--figma-color-bg-hover);
+  cursor: pointer;
+}
+
+.get-me-a-coffee {
+  width: 100%;
+  background: #ffdd00;
+  color: var(--figma-color-text);
+  text-decoration: none;
+}
+
+.get-me-a-coffee:hover {
+  background: #ffe747;
+  text-decoration: none;
+  color: var(--figma-color-text);
+}
+
+.about {
+  padding: 16px;
+}
+
+.about-content {
+  margin: 32px 0;
+  padding: 16px;
+}
+
+.about-content h1 {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 600px;
+  margin-bottom: 16px;
+}
+
+.about-content p {
+  font-size: 16px;
+  line-height: 24px;
+  margin-bottom: 16px;
+}
+
+.about-me {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.about-me-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.content {
+  text-align: left;
+}
+
+.about-me-name {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.about-me-site {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--figma-color-text-brand);
+  text-decoration: underline;
+  transition: text-decoration 0.1s;
+}
+
+.about-me-site:hover {
+  color: var(--figma-color-text-brand-secondary);
+  text-decoration: none;
+}
+
+a {
+  color: var(--figma-color-text-brand);
+}
+
+a:hover {
+  color: var(--figma-color-text-brand-secondary);
+  text-decoration: none;
+}
+
+.repository-link {
+  text-decoration: none;
+}
+
+.repository-link:hover {
+  background: var(--figma-color-bg-hover);
+}
+
+.plugin-info {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  padding: 8px;
+  border: 2px solid var(--figma-color-border);
+  border-radius: 8px;
+  align-items: center;
+  position: fixed;
+  bottom: 16px;
+  width: 328px;
+}
+
+.plugin-info:hover {
+  background: var(--figma-color-bg-hover);
+}
+
+.plugin-info-gh {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  flex: 1;
+  align-items: center;
+  color: var(--figma-color-text);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.plugin-info-version {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  color: var(--figma-color-text);
+  padding: 4px 8px;
+  background: var(--figma-color-bg-secondary);
+  border-radius: 999px;
+  height: fit-content;
+}

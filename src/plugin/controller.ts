@@ -1,17 +1,18 @@
-// This plugin will open a window to prompt the user to enter a number, and
-// it will then create that many rectangles on the screen.
-
-// This file holds the main code for the plugins. It has access to the *document*.
-// You can access browser APIs in the <script> tag inside "ui.html" which has a
-// full browser environment (see documentation).
-
-// This shows the HTML page in "ui.html".
 figma.showUI(__html__, {
   width: 360,
-  height: 612,
+  height: 760,
   title: "Annotate Design",
   themeColors: true,
 });
+
+// Get the current user
+const user = figma.currentUser;
+
+// Get the user's name
+const userName = user.name;
+
+// Relaunch
+figma.root.setRelaunchData({ open: "" });
 
 // Check if something is selected on the artboard
 
@@ -24,6 +25,7 @@ function checkSelection() {
   } else {
     figma.ui.postMessage({
       type: "element-selected",
+      userName,
     });
   }
 }
@@ -57,21 +59,52 @@ function hexToRGB(hex: string) {
   return { r, g, b };
 }
 
-// Creating variables for colors
-const backgroundColor = hexToRGB("#131314");
-const textColor = hexToRGB("#FFFFFF");
-const borderColor = hexToRGB("#44474A");
-
 // Create annotation function
 function createAnnotation(
   annotationPosition: string,
   annotationTitle: string,
-  annotationContent: string
+  annotationContent: string,
+  annotationTheme: string,
+  showAuthor: boolean
 ) {
   let currentSelection = figma.currentPage.selection[0];
   let currentBounds = currentSelection.absoluteBoundingBox;
   let textFrameWidth: number;
   let textFrameHeight: number;
+
+  // Annotation theme
+  let backgroundColor, borderColor, textColor, authorColor;
+  if (annotationTheme === "dark") {
+    backgroundColor = hexToRGB("#131314");
+    borderColor = hexToRGB("#44474A");
+    textColor = hexToRGB("#FFFFFF");
+    authorColor = hexToRGB("#F0F2F5");
+  } else if (annotationTheme === "light") {
+    backgroundColor = hexToRGB("#FFFFFF");
+    borderColor = hexToRGB("#F0F2F5");
+    textColor = hexToRGB("#131314");
+    authorColor = hexToRGB("#44474A");
+  } else if (annotationTheme === "red") {
+    backgroundColor = hexToRGB("#F0BCBC");
+    borderColor = hexToRGB("#EDABAB");
+    textColor = hexToRGB("#131314");
+    authorColor = hexToRGB("#44474A");
+  } else if (annotationTheme === "yellow") {
+    backgroundColor = hexToRGB("#F0DEBC");
+    borderColor = hexToRGB("#EDD6AB");
+    textColor = hexToRGB("#131314");
+    authorColor = hexToRGB("#44474A");
+  } else if (annotationTheme === "green") {
+    backgroundColor = hexToRGB("#BCF0D8");
+    borderColor = hexToRGB("#ABEDCE");
+    textColor = hexToRGB("#131314");
+    authorColor = hexToRGB("#44474A");
+  } else if (annotationTheme === "purple") {
+    backgroundColor = hexToRGB("#BCC5F0");
+    borderColor = hexToRGB("#ABB6ED");
+    textColor = hexToRGB("#131314");
+    authorColor = hexToRGB("#44474A");
+  }
 
   // Annotation dot
   function dot() {
@@ -117,7 +150,7 @@ function createAnnotation(
     annotationTextFrame.name = "Content";
     annotationTextFrame.layoutMode = "VERTICAL";
     annotationTextFrame.layoutAlign = "STRETCH";
-    annotationTextFrame.itemSpacing = 0;
+    annotationTextFrame.itemSpacing = 4;
 
     annotationTextFrame.fills = [
       {
@@ -149,8 +182,9 @@ function createAnnotation(
     annotationTextFrame.cornerRadius = 8;
     annotationTextFrame.paddingLeft = 16;
     annotationTextFrame.paddingRight = 16;
-    annotationTextFrame.paddingTop = 8;
-    annotationTextFrame.paddingBottom = 8;
+    annotationTextFrame.paddingTop = 16;
+    annotationTextFrame.paddingBottom = 16;
+
     annotationFrame.appendChild(annotationTextFrame);
 
     // Text frame content
@@ -160,7 +194,19 @@ function createAnnotation(
       text.characters = contentText.toString();
       text.fontName = font;
       text.fontSize = 14;
+      text.lineHeight = { value: 20, unit: "PIXELS" };
       text.fills = [{ type: "SOLID", color: textColor }];
+      return text;
+    };
+
+    const createAuthor = (nameText: string, contentText: string, font: any) => {
+      const text = figma.createText();
+      text.name = nameText;
+      text.characters = contentText.toString();
+      text.fontName = font;
+      text.fontSize = 12;
+      text.lineHeight = { value: 16, unit: "PIXELS" };
+      text.fills = [{ type: "SOLID", color: authorColor }];
       return text;
     };
 
@@ -183,6 +229,25 @@ function createAnnotation(
 
     annotationTextFrame.appendChild(content);
 
+    if (showAuthor) {
+      const authorFrame = figma.createFrame(); // Create a new frame for the author text
+      authorFrame.name = "Author"; // Set a name for the frame
+      authorFrame.layoutMode = "VERTICAL";
+      authorFrame.layoutAlign = "STRETCH";
+      authorFrame.itemSpacing = 0;
+      authorFrame.paddingTop = 8; // Set top padding
+      authorFrame.paddingBottom = 0; // Set bottom padding
+      authorFrame.fills = []; // No background color
+
+      const author = createAuthor("Author", `🖋️ ${userName}`, {
+        family: "Inter",
+        style: "Regular",
+      });
+
+      authorFrame.appendChild(author);
+      annotationTextFrame.appendChild(authorFrame);
+    }
+
     if (titleWidth > 360 || content.width > 360) {
       annotationTextFrame.resize(360, annotationTextFrame.height);
       annotationTextFrame.primaryAxisSizingMode = "AUTO";
@@ -201,31 +266,14 @@ function createAnnotation(
 
   // Annotation Frame
   const annotationFrame = figma.createFrame();
-  annotationFrame.name = `${currentSelection.name} Annotation`;
+  annotationFrame.name = `Annotation`;
   annotationFrame.fills = [];
   annotationFrame.primaryAxisSizingMode = "FIXED";
   annotationFrame.counterAxisSizingMode = "AUTO";
   annotationFrame.primaryAxisAlignItems = "CENTER";
   annotationFrame.counterAxisAlignItems = "CENTER";
   annotationFrame.itemSpacing = -2;
-
-  // Check if there is an existing parent frame that would hold the annotations
-  const existingFrame = figma.currentPage.findChild(
-    (layer) => layer.name === "🗒️ Annotations" && layer.type === "FRAME"
-  );
-
-  // If there is no existing parent frame, create one and add the annotation frame to it
-  if (!existingFrame) {
-    const parentFrame = figma.createFrame();
-    parentFrame.name = "🗒️ Annotations";
-    parentFrame.locked = true;
-    parentFrame.fills = [];
-    parentFrame.clipsContent = false;
-    figma.currentPage.appendChild(parentFrame);
-    parentFrame.appendChild(annotationFrame);
-  } else if (existingFrame && existingFrame.type === "FRAME") {
-    existingFrame.appendChild(annotationFrame);
-  }
+  annotationFrame.clipsContent = false;
 
   // Function to set the annotation frame properties
   function setAnnotationFrameProperties(annotationPosition: string) {
@@ -283,6 +331,13 @@ function createAnnotation(
           break;
       }
     }
+
+    // Add it to a group
+    const currentPage = figma.currentPage;
+    const group = figma.group([annotationFrame], currentPage);
+    group.name = `📝 Annotation · ${currentSelection.name}`;
+    // Insert the group at the beginning of the page's children array
+    currentPage.appendChild(group);
   }
 
   // Calling the function to position the annotation based on the selected position
@@ -322,7 +377,13 @@ figma.ui.onmessage = (msg) => {
   if (msg.type === "add-annotation") {
     loadingFontFunction()
       .then(() => {
-        createAnnotation(msg.position, msg.title, msg.content);
+        createAnnotation(
+          msg.position,
+          msg.title,
+          msg.content,
+          msg.theme,
+          msg.showAuthor
+        );
         figma.notify("Annotation added.");
       })
       .catch(() => {

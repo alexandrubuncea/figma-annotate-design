@@ -1,0 +1,14 @@
+.show-author {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--figma-color-text);
+  font-size: 16px;
+  line-height: 24px;
+}
