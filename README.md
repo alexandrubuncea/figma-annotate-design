@@ -10,4 +10,4 @@ Right now the code is quite messy but I am improving it while going forward and 
 
 Figma community: https://www.figma.com/community/plugin/1190992260300542362/annotate-design
 
-If you'd like to support my work, you can buy me a coffee.
+If you'd like to support my work, you can [buy me a coffee](https://www.buymeacoffee.com/alexandrubuncea).
