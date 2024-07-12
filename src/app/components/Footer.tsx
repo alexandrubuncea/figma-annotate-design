@@ -6,7 +6,7 @@ const Footer = ({ onAboutClick }) => {
   return (
     <footer>
       <a
-        href="https://www.buymeacoffee.com/alexandrubuncea"
+        href="https://ko-fi.com/alexandrub"
         target="_blank"
         rel="noopener noreferrer"
         className="footer-button"

@@ -38,8 +38,10 @@ const About = ({ onGoBack }) => {
           If you'd like to show your support you can also buy me a coffee 👇
         </p>
         <a
-          href="https://www.buymeacoffee.com/alexandrubuncea"
+          href="https://ko-fi.com/alexandrub"
           className="btn get-me-a-coffee"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           <span className="material-symbols-rounded">coffee</span>
           Buy me a coffee!

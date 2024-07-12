@@ -11,5 +11,13 @@
       "command": "open",
       "name": "Open Annotate Design"
     }
-  ]
+  ],
+  "networkAccess": {
+    "allowedDomains": [
+      "https://fonts.gstatic.com",
+      "https://fonts.googleapis.com",
+      "https://material.io",
+      "https://ko-fi.com"
+    ]
+  }
 }

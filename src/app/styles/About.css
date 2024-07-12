@@ -36,15 +36,15 @@
 
 .get-me-a-coffee {
   width: 100%;
-  background: #ffdd00;
-  color: rgba(0, 0, 0, 0.9);
+  background: var(--figma-color-bg-brand);
+  color: var(--figma-color-text-onbrand);
   text-decoration: none;
 }
 
 .get-me-a-coffee:hover {
-  background: #ffe747;
+  background: var(--figma-color-bg-brand-hover);
+  color: var(--figma-color-text-onbrand);
   text-decoration: none;
-  color: rgba(0, 0, 0, 0.9);
 }
 
 .about-header {
